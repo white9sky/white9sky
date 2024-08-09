@@ -22,3 +22,54 @@ nmcli con up br0
 
 enp4s0 : host의 이더넷 포트
 192.168.0.10 : host의 ip 수동지정
+
+-리눅스 서버 최신화
+* 미러서버 접근 안되는 것이 있음. 미리 처리하는게 나을듯(20240809기준)
+sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo
+sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo
+sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/*.repo
+dnf upgrade -y
+
+-gitbucket설정
+0. git 유저 생성
+adduser git
+su - git
+
+1. java 설치
+dnf install -y java-21-openjdk
+
+2. gitbucket.war 다운로드
+wget https://github.com/gitbucket/gitbucket/releases/download/4.41.0/gitbucket.war
+
+3. 방화벽오픈 
+8080이 디폴트. 다른거 쓸거면 바꿔도됨
+firewall-cmd --permanent --zone=public --add-port=8080/tcp
+firewall-cmd --reload  
+
+4. 시스템서비스 등록해서 알아서 올라오게하기
+sudo vi /etc/systemd/system/gitbucket.service
+여기서 이하 붙여넣기
+
+[Unit]
+   Description=GitBucket
+   After=network.target
+
+   [Service]
+   Type=simple
+   User=git
+   ExecStart=/usr/bin/java -jar /git/gitbucket.war
+   Restart=always
+
+   [Install]
+   WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+sudo systemctl enable gitbucket.service
+sudo systemctl start gitbucket.service
+sudo systemctl status gitbucket.service
+서비스 중지: sudo systemctl stop gitbucket.service
+서비스 재시작: sudo systemctl restart gitbucket.service
+
+
+adduser git
+su - git
