@@ -47,7 +47,7 @@ firewall-cmd --permanent --zone=public --add-port=8080/tcp
 firewall-cmd --reload  
 
 4. 시스템서비스 등록해서 알아서 올라오게하기
-sudo vi /etc/systemd/system/gitbucket.service
+vi /etc/systemd/system/gitbucket.service
 여기서 이하 붙여넣기
 
 [Unit]
@@ -57,7 +57,7 @@ sudo vi /etc/systemd/system/gitbucket.service
    [Service]
    Type=simple
    User=git
-   ExecStart=/usr/bin/java -jar /git/gitbucket.war
+   ExecStart=/usr/bin/java -jar /home/git/gitbucket.war
    Restart=always
 
    [Install]
