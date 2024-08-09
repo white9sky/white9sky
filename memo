@@ -39,7 +39,7 @@ su - git
 dnf install -y java-21-openjdk
 
 2. gitbucket.war 다운로드
-wget https://github.com/gitbucket/gitbucket/releases/download/4.41.0/gitbucket.war
+[/home/git]wget https://github.com/gitbucket/gitbucket/releases/download/4.41.0/gitbucket.war
 
 3. 방화벽오픈 
 8080이 디폴트. 다른거 쓸거면 바꿔도됨
@@ -69,7 +69,3 @@ sudo systemctl start gitbucket.service
 sudo systemctl status gitbucket.service
 서비스 중지: sudo systemctl stop gitbucket.service
 서비스 재시작: sudo systemctl restart gitbucket.service
-
-
-adduser git
-su - git
