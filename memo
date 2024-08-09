@@ -8,3 +8,17 @@ svn -> git 하면서 리눅스 설치 vm 셋팅부터 처리한 것 기억용 �
 rocky linux 8.10 : lts 기간 제일 길고 현재 사용중인 centos와 비슷하여 선택
 gitbucket : 예전에 써봤고 가볍고 설치가 간편한것 같아서 사용. gitlab은 너무 느리다는 말이 많아서 탈락
 
+-VM설정
+VM을 디폴트로 설정하면 host에서 nat로 뿌려주는 형식이라 외부에서 직접 접근이 안되고 host에서 포트포워딩 필요한 구조임.
+따라서 host 내부에 가상 브릿지를 생성하여서(가상의 스위치허브) 에 vm을 연결시켜야 함
+host리눅스 설치 후 브릿지 설정부터 먼저 처리하고 vm 작업 실시.
+이하 브릿지 설정에서 작성한 br0를 반드시 추가하여 vm 추가할것
+
+-브릿지 설정
+nmcli con mod br0 ipv4.method manual ipv4.addresses 192.168.0.10/24 ipv4.gateway 192.168.0.1 autoconnect yes
+nmcli con mod enp4s0 connection.slave-type bridge master br0 autoconnect yes
+nmcli con up enp4s0
+nmcli con up br0
+
+enp4s0 : host의 이더넷 포트
+192.168.0.10 : host의 ip 수동지정
