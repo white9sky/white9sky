@@ -14,6 +14,9 @@ VM을 디폴트로 설정하면 host에서 nat로 뿌려주는 형식이라 외�
 host리눅스 설치 후 브릿지 설정부터 먼저 처리하고 vm 작업 실시.
 이하 브릿지 설정에서 작성한 br0를 반드시 추가하여 vm 추가할것
 
+*추가 후 rocky 인스톨 작업에서 수동으로 ip 추가할것
+*gitbucket은 구조상 /home 디렉토리 아래로 들어가니 /home 쪽에 용량을 넉넉하게 할당할것 
+
 -브릿지 설정
 nmcli con mod br0 ipv4.method manual ipv4.addresses 192.168.0.10/24 ipv4.gateway 192.168.0.1 autoconnect yes
 nmcli con mod enp4s0 connection.slave-type bridge master br0 autoconnect yes
