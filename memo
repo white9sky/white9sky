@@ -72,3 +72,12 @@ sudo systemctl start gitbucket.service
 sudo systemctl status gitbucket.service
 서비스 중지: sudo systemctl stop gitbucket.service
 서비스 재시작: sudo systemctl restart gitbucket.service
+
+5. svn -> git 마이그레이션
+svn log --xml http://svn.example.com/your-repository | grep author | sort -u | perl -pe 's/.*>(.*?)<.*/$1 = /' > users.txt
+git svn clone http://svn.example.com/your-repository --no-metadata --authors-file=userㄴ.txt -s 마이그레이션용로컬git이름
+
+git remote add origin http://githost:port/원격git주소.git
+git push -u origin main
+
+참고 : https://garve32.tistory.com/43
